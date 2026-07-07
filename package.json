@@ -1,0 +1,17 @@
+{
+  "name": "kishan",
+  "version": "1.0.0",
+  "description": "Connecting mysql to express",
+  "license": "ISC",
+  "author": "Kishan",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "morgan": "^1.11.0",
+    "mysql2": "^3.22.5"
+  }
+}
