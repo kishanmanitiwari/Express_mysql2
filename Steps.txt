@@ -1,0 +1,5 @@
+Step 1 - npm install
+Step 2 - password set - db.js
+Step 3 - mysql - coding_savvy = db
+Step 4 - Students Table - Data Entry
+Step 5 - localhost:3000/api/students
