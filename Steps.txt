@@ -8,3 +8,5 @@ Assignment
 1) Create a patch route that only updates a specific Entry
 2) Add appropiate http code like 201 or 404 when required
 3) Research about service layer implemnation - MVC
+
+Notes : https://cyber-gold-a89.notion.site/CRUD-Operation-s-using-MYSQL-2-3a1bd8508371808ea72ee3cf73cf5187
