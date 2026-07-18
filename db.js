@@ -1,13 +1,15 @@
-import mysql from "mysql2/promise";
+import mysql2 from "mysql2/promise";
 
-//create connection - connection + connect
-const conn = await mysql.createConnection({
+const config = {
   host: "localhost",
-  user: "root",
-  password: "",
+  user: "test_user",
+  password: "test123",
   database: "coding_savvy",
-});
+};
 
-console.log("Database sucessfully connected");
+const conn = await mysql2.createConnection(config);
+
+console.log("Databse connected!");
+
 
 export default conn;
