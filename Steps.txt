@@ -1,5 +1,10 @@
 Step 1 - npm install
 Step 2 - password set - db.js
 Step 3 - mysql - coding_savvy = db
-Step 4 - Students Table - Data Entry
-Step 5 - localhost:3000/api/students
+Step 4 - Users Table - Data Entry
+Step 5 - localhost:3000/Users
+
+Assignment
+1) Create a patch route that only updates a specific Entry
+2) Add appropiate http code like 201 or 404 when required
+3) Research about service layer implemnation - MVC
