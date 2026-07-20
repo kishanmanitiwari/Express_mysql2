@@ -4,9 +4,25 @@ Step 3 - mysql - coding_savvy = db
 Step 4 - Users Table - Data Entry
 Step 5 - localhost:3000/Users
 
-Assignment
-1) Create a patch route that only updates a specific Entry
-2) Add appropiate http code like 201 or 404 when required
-3) Research about service layer implemnation - MVC
+0) npm install dotenv
+1) create .env file and env variable - use your crediential
+2) run this query in your db to create Table
+CREATE TABLE IF NOT EXISTS users(
+  id INT primary key auto_increment,
+  name varchar(100) not null,
+  email varchar(100) unique not null,
+  password varchar(100) not null,
+  age int,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+3) insert into users(name,email,password,age)
+values ('Kishan','kishan@gmail.com','pass@123',22)
 
-Notes : https://cyber-gold-a89.notion.site/CRUD-Operation-s-using-MYSQL-2-3a1bd8508371808ea72ee3cf73cf5187
+4) try youself sql injection
+5) try normal code
+
+##Assignment 
+1) complete signup and logout route in auth.js file
+2) create a dashboard route and mount it to app.js
+
+Notes - https://fragrant-galette-180.notion.site/Mastering-Backend-Development-with-Node-js-1a1248c7ff16811ea7b2d103a68c971f
