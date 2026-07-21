@@ -16,12 +16,13 @@ router.post("/login", async (req, res) => {
 
     console.log(sql);
 
-    const [rows] = await db.query(sql,[username,password]); //rows[0]
+    const [rows] = await db.query(sql, [username, password]); //rows[0]
 
     if (rows.length > 0) return res.send("Login Successful");
 
     res.send("Invalid Credentials");
   } catch (err) {
+    console.error(err);
     res.status(500).send(err.message);
   }
 });
