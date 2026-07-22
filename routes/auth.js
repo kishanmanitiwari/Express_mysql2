@@ -1,34 +1,119 @@
 import { Router } from "express";
+import { body, validationResult } from "express-validator";
 import db from "../utils/db.js";
 
 const router = Router();
 
-router.post("/login", async (req, res) => {
-  try {
-    const { username, password } = req.body;
+// ================= REGISTER =================
 
-    const sql = `
-            SELECT *
-            FROM users
-            WHERE email=?
-            AND upassword=?
-        `;
+router.post(
+  "/register",
+  [
+    body("name").notEmpty().withMessage("Name is required"),
+    body("email").isEmail().withMessage("Valid email is required"),
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters"),
+  ],
 
-    console.log(sql);
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
 
-    const [rows] = await db.query(sql, [username, password]); //rows[0]
+      if (!errors.isEmpty()) {
+        const error = new Error("Validation Failed");
+        error.statusCode = 400;
+        error.errors = errors.array();
+        return next(error);
+      }
 
-    if (rows.length > 0) return res.send("Login Successful");
+      const { name, email, password } = req.body;
 
-    res.send("Invalid Credentials");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(err.message);
+      const checkSql = `
+        SELECT *
+        FROM auth
+        WHERE email = ?
+      `;
+
+      const [user] = await db.query(checkSql, [email]);
+
+      if (user.length > 0) {
+        const error = new Error("Email already exists");
+        error.statusCode = 409;
+        return next(error);
+      }
+
+      const insertSql = `
+        INSERT INTO auth(name, email, upassword)
+        VALUES(?, ?, ?)
+      `;
+
+      await db.query(insertSql, [name, email, password]);
+
+      res.status(201).json({
+        success: true,
+        message: "Registration Successful",
+      });
+    } catch (err) {
+      next(err);
+    }
   }
+);
+
+// ================= LOGIN =================
+
+router.post(
+  "/login",
+  [
+    body("email").isEmail().withMessage("Valid email is required"),
+    body("password").notEmpty().withMessage("Password is required"),
+  ],
+
+  async (req, res, next) => {
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        const error = new Error("Validation Failed");
+        error.statusCode = 400;
+        error.errors = errors.array();
+        return next(error);
+      }
+
+      const { email, password } = req.body;
+
+      const sql = `
+        SELECT *
+        FROM auth
+        WHERE email = ?
+        AND upassword = ?
+      `;
+
+      const [rows] = await db.query(sql, [email, password]);
+
+      if (rows.length === 0) {
+        const error = new Error("Invalid Credentials");
+        error.statusCode = 401;
+        return next(error);
+      }
+
+      res.json({
+        success: true,
+        message: "Login Successful",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+// ================= LOGOUT =================
+
+router.post("/logout", (req, res) => {
+  res.json({
+    success: true,
+    message: "Logout Successful",
+  });
 });
-
-router.post("/register", () => {});
-
-router.post("/logout", () => {});
 
 export default router;
