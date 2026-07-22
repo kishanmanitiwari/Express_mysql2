@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, validationResult } from "express-validator";
 import db from "../utils/db.js";
+import bcrypt from "bcrypt";
 
 const router = Router();
 
@@ -43,12 +44,14 @@ router.post(
         return next(error);
       }
 
+      const hashedPassword = await bcrypt.hash(password, 10);
+
       const insertSql = `
         INSERT INTO auth(name, email, upassword)
         VALUES(?, ?, ?)
       `;
 
-      await db.query(insertSql, [name, email, password]);
+      await db.query(insertSql, [name, email, hashedPassword]);
 
       res.status(201).json({
         success: true,
@@ -57,7 +60,7 @@ router.post(
     } catch (err) {
       next(err);
     }
-  }
+  },
 );
 
 // ================= LOGIN =================
@@ -86,12 +89,19 @@ router.post(
         SELECT *
         FROM auth
         WHERE email = ?
-        AND upassword = ?
       `;
 
-      const [rows] = await db.query(sql, [email, password]);
+      const [rows] = await db.query(sql, [email]);
 
-      if (rows.length === 0) {
+      if (rows.length == 0) {
+        const error = new Error("Invalid Credentials");
+        error.statusCode = 409;
+        return next(error);
+      }
+
+      const isMatch = await bcrypt.compare(password, rows[0].upassword);
+
+      if (isMatch == false) {
         const error = new Error("Invalid Credentials");
         error.statusCode = 401;
         return next(error);
@@ -104,7 +114,7 @@ router.post(
     } catch (err) {
       next(err);
     }
-  }
+  },
 );
 
 // ================= LOGOUT =================
