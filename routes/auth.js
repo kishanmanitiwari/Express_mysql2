@@ -2,6 +2,10 @@ import { Router } from "express";
 import { body, validationResult } from "express-validator";
 import db from "../utils/db.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { configDotenv } from "dotenv";
+
+configDotenv({ debug: true });
 
 const router = Router();
 
@@ -107,9 +111,19 @@ router.post(
         return next(error);
       }
 
+      const payload = { id: rows[0].id, email: rows[0].email };
+
+      console.log(payload);
+
+      const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+        expiresIn: "1h",
+      });
+      //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
       res.json({
         success: true,
         message: "Login Successful",
+        token: token,
       });
     } catch (err) {
       next(err);

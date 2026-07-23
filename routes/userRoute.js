@@ -1,6 +1,10 @@
 import { Router } from "express";
 import db from "../utils/db.js";
 import { body, validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
+import { configDotenv } from "dotenv";
+
+configDotenv({ debug: true });
 
 const router = Router();
 
@@ -75,6 +79,24 @@ router.post(
 // ==================== READ ====================
 router.get("/", async (req, res, next) => {
   try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+      const error = new Error("Token missing!");
+      error.status = 401;
+      return next(error);
+    }
+
+    // Bearer fjsddsflldfslsdf
+    const tokenSplit = authHeader.split(" ");
+    // [Bearer,dsfjlfdlfjdsljfdsljfdl]
+
+    const token = tokenSplit[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    console.log(decoded);
+
     const sql = `
         SELECT *
         FROM users

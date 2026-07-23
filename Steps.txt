@@ -6,6 +6,8 @@ Step 5 - localhost:3000/Users
 
 0) npm install dotenv
 1) create .env file and env variable - use your crediential
+(DB_USER, DB_PASSWORD , DB_DB , JWT_SECRET_KEY)
+
 2) run this query in your db to create Table
 CREATE TABLE IF NOT EXISTS users(
   id INT primary key auto_increment,
@@ -26,3 +28,5 @@ values ('Kishan','kishan@gmail.com','pass@123',22)
 2) create a dashboard route and mount it to app.js
 
 Notes - https://fragrant-galette-180.notion.site/Mastering-Backend-Development-with-Node-js-1a1248c7ff16811ea7b2d103a68c971f
+
+Website : jwt.io
