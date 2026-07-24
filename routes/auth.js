@@ -120,10 +120,18 @@ router.post(
       });
       //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        maxAge: 60 * 60 * 1000,
+      });
+
+      req.session.user = payload;
+
       res.json({
         success: true,
         message: "Login Successful",
-        token: token,
       });
     } catch (err) {
       next(err);
@@ -134,6 +142,18 @@ router.post(
 // ================= LOGOUT =================
 
 router.post("/logout", (req, res) => {
+  res.clearCookie("jwt");
+
+  req.session.destroy((err) => {
+    if (err) return next(err);
+
+    res.clearCookie("connect.sid");
+
+    res.json({
+      message: "Logout Successful",
+    });
+  });
+
   res.json({
     success: true,
     message: "Logout Successful",

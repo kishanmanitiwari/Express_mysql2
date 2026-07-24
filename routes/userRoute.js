@@ -1,10 +1,7 @@
 import { Router } from "express";
 import db from "../utils/db.js";
 import { body, validationResult } from "express-validator";
-import jwt from "jsonwebtoken";
-import { configDotenv } from "dotenv";
-
-configDotenv({ debug: true });
+import { jwtAuth, isAuthenticatedSession } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -77,26 +74,8 @@ router.post(
 );
 
 // ==================== READ ====================
-router.get("/", async (req, res, next) => {
+router.get("/", isAuthenticatedSession, async (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-      const error = new Error("Token missing!");
-      error.status = 401;
-      return next(error);
-    }
-
-    // Bearer fjsddsflldfslsdf
-    const tokenSplit = authHeader.split(" ");
-    // [Bearer,dsfjlfdlfjdsljfdsljfdl]
-
-    const token = tokenSplit[1];
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
-    console.log(decoded);
-
     const sql = `
         SELECT *
         FROM users
@@ -111,7 +90,7 @@ router.get("/", async (req, res, next) => {
 });
 
 // ==================== UPDATE ====================
-router.put("/", async (req, res, next) => {
+router.put("/", jwtAuth, async (req, res, next) => {
   try {
     const { id, name, age } = req.body;
 
@@ -135,7 +114,7 @@ router.put("/", async (req, res, next) => {
 });
 
 // ==================== PATCH ====================
-router.patch("/:id", async (req, res, next) => {
+router.patch("/:id", jwtAuth, async (req, res, next) => {
   try {
     const { id } = req.params;
     const { name, age } = req.body;
@@ -172,7 +151,7 @@ router.patch("/:id", async (req, res, next) => {
 });
 
 // ==================== DELETE ====================
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", jwtAuth, async (req, res, next) => {
   try {
     const { id } = req.params;
 
