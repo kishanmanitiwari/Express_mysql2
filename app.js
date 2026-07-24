@@ -16,14 +16,11 @@ app.use("/users", userRouter);
 app.use("/auth", authRouter);
 
 // 404 Middleware
-app.use((req,res)=>{
-
-    res.status(404).json({
-        message:"Route Not Found"
-    });
-
+app.use((req, res) => {
+  res.status(404).json({
+    message: "Route Not Found",
+  });
 });
-
 
 // Global Error Handler
 app.use((err, req, res, next) => {
