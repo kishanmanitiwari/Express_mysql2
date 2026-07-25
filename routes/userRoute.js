@@ -1,7 +1,12 @@
 import { Router } from "express";
 import db from "../utils/db.js";
 import { body, validationResult } from "express-validator";
-import { jwtAuth, isAuthenticatedSession } from "../middleware/auth.js";
+import {
+  jwtAuth,
+  isAuthenticatedSession,
+  isAdminJWT,
+  isAdminSession,
+} from "../middleware/auth.js";
 
 const router = Router();
 
@@ -74,7 +79,7 @@ router.post(
 );
 
 // ==================== READ ====================
-router.get("/", isAuthenticatedSession, async (req, res, next) => {
+router.get("/", jwtAuth, async (req, res, next) => {
   try {
     const sql = `
         SELECT *
@@ -90,7 +95,7 @@ router.get("/", isAuthenticatedSession, async (req, res, next) => {
 });
 
 // ==================== UPDATE ====================
-router.put("/", jwtAuth, async (req, res, next) => {
+router.put("/", jwtAuth, isAdminJWT, async (req, res, next) => {
   try {
     const { id, name, age } = req.body;
 
@@ -151,24 +156,31 @@ router.patch("/:id", jwtAuth, async (req, res, next) => {
 });
 
 // ==================== DELETE ====================
-router.delete("/:id", jwtAuth, async (req, res, next) => {
-  try {
-    const { id } = req.params;
+router.delete(
+  "/:id",
+  isAuthenticatedSession,
+  isAdminSession,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
 
-    const sql = `
+      console.log(req.user);
+
+      const sql = `
         DELETE FROM users
         WHERE id=${id}
     `;
 
-    const [result] = await db.query(sql);
+      const [result] = await db.query(sql);
 
-    res.status(200).json({
-      message: "User deleted successfully.",
-      result,
-    });
-  } catch (error) {
-    next(error); //Errror handling - Express Global Error Handler
-  }
-});
+      res.status(200).json({
+        message: "User deleted successfully.",
+        result,
+      });
+    } catch (error) {
+      next(error); //Errror handling - Express Global Error Handler
+    }
+  },
+);
 
 export default router;

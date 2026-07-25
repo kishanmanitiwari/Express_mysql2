@@ -111,14 +111,19 @@ router.post(
         return next(error);
       }
 
-      const payload = { id: rows[0].id, email: rows[0].email };
+      const payload = {
+        id: rows[0].id,
+        email: rows[0].email,
+        role: rows[0].role,
+      };
 
       console.log(payload);
 
-      const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+      const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
       //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+      console.log("generated token is ", token);
 
       res.cookie("jwt", token, {
         httpOnly: true,

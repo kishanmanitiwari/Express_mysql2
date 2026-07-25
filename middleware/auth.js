@@ -11,10 +11,13 @@ export function jwtAuth(req, res, next) {
       message: "Unauthorized",
     });
   }
-
+  console.log(token);
+  
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
+    console.log("I am here");
+    
     next();
   } catch (err) {
     return res.status(401).json({
@@ -31,5 +34,25 @@ export function isAuthenticatedSession(req, res, next) {
   }
 
   req.user = req.session.user;
+  next();
+}
+
+//jwt
+export function isAdminJWT(req, res, next) {
+  if (req.user.role !== "Admin") {
+    return res.status(403).json({ message: "Acess Denied" });
+  }
+
+  next();
+}
+
+//session
+export function isAdminSession(req, res, next) {
+  if (req.session.user.role !== "Admin") {
+    return res.status(403).json({
+      message: "Access Denied",
+    });
+  }
+
   next();
 }

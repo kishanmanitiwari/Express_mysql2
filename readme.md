@@ -39,7 +39,7 @@ DB_USER=root
 DB_PASSWORD=your_password
 DB_DB=express_auth_db
 
-JWT_SECRET_KEY=your_jwt_secret
+JWT_SECRET=your_jwt_secret
 SESSION_SECRET=your_session_secret
 ```
 

@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS users(
 3) insert into users(name,email,password,age)
 values ('Kishan','kishan@gmail.com','pass@123',22)
 
+4) Run alter command to add role column in auth mentioned in migration/auth.js
+
 4) try youself sql injection
 5) try normal code
 
