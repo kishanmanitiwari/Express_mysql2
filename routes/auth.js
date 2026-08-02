@@ -57,7 +57,7 @@ router.post(
 
       await db.query(insertSql, [name, email, hashedPassword]);
 
-      console.log("Hello from Oracle Cloud");
+      console.log("Hello from Oracle Cloud Machine");
 
       res.status(201).json({
         success: true,
