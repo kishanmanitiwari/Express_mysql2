@@ -19,7 +19,15 @@ jobs:
       run: npm install
 
     - name: Run tests
-      run: echo "Test Successful!"
+      run: npm test
 
     - name: Build project
       run: echo "Build Successful!"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Build Docker image
+      run: docker build -t express-api .
