@@ -45,3 +45,15 @@ jobs:
 
     - name: Push Docker image
       run: docker push ${{ secrets.DOCKER_USERNAME }}/express-api:latest
+
+    - name: Deploy to Oracle
+      uses: appleboy/ssh-action@v1.2.2
+      with:
+        host: ${{ secrets.ORACLE_HOST }}
+        username: ${{ secrets.ORACLE_USER }}
+        key: ${{ secrets.ORACLE_SSH_KEY }}
+        script: |
+          cd ~
+          docker compose pull
+          docker compose up -d --remove-orphans
+          docker image prune -f

@@ -57,6 +57,8 @@ router.post(
 
       await db.query(insertSql, [name, email, hashedPassword]);
 
+      console.log("Hello from Oracle Cloud");
+
       res.status(201).json({
         success: true,
         message: "Registration Successful",

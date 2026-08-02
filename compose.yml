@@ -16,7 +16,7 @@ services:
       - mysql-data:/var/lib/mysql
 
   backend:
-    build: .
+    image: kishanmanitiwari/express-api:latest
 
     container_name: express
 
