@@ -1,0 +1,11 @@
+name: My first CI workflow
+
+on: push
+
+jobs:
+  hello: # Name of jobs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say Hello
+        run: echo "Hello world!"
