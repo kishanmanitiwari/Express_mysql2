@@ -59,7 +59,7 @@ router.post(
 
       res.status(201).json({
         success: true,
-        message: "Registration Successful",
+        message: "Registration Successful!",
       });
     } catch (err) {
       next(err);
