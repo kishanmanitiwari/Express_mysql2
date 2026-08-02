@@ -46,7 +46,7 @@ jobs:
     - name: Push Docker image
       run: docker push ${{ secrets.DOCKER_USERNAME }}/express-api:latest
 
-    - name: Deploy to Oracle
+    - name: Deploy to Oracle VM
       uses: appleboy/ssh-action@v1.2.2
       with:
         host: ${{ secrets.ORACLE_HOST }}
