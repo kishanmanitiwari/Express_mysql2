@@ -1,6 +1,8 @@
 name: Express CI
 
-on: push
+on:
+  push:
+    branches: [ "Testing" ]
 
 jobs:
   build:
@@ -13,7 +15,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 22
+        node-version: '22'
 
     - name: Install dependencies
       run: npm install
