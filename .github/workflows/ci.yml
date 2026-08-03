@@ -26,9 +26,9 @@ jobs:
   cd:
     runs-on: ubuntu-latest
 
-    dependencies:
+    needs: - ci
     #Depeccies states this job will run after the completion of the ci job
-    - ci
+   
 
     steps:
     - name: Checkout code
