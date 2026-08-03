@@ -2,10 +2,10 @@ name: Express CI
 
 on:
   push:
-    branches: [ TestingModule ]
+    branches: [ CD ]
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,5 +23,16 @@ jobs:
     - name: Run tests
       run: npm run test
 
-    - name: Build project
-      run: echo "Build Successful!"
+  cd:
+    runs-on: ubuntu-latest
+
+    dependencies:
+    #Depeccies states this job will run after the completion of the ci job
+    - ci
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4 # Repo clone temp ubuntu VM
+
+    - name: Build Docker Image
+      run: docker build -t express-api .
