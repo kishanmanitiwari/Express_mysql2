@@ -1,6 +1,8 @@
 name: Express CI
 
-on: push
+on:
+  push:
+    branches: [ TestingModule ]
 
 jobs:
   build:
@@ -19,7 +21,7 @@ jobs:
       run: npm install
 
     - name: Run tests
-      run: echo "Test Successful!"
+      run: npm run test
 
     - name: Build project
       run: echo "Build Successful!"

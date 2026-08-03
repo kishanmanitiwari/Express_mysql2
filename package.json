@@ -18,8 +18,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo \"No build step required\"",
+    "test": "jest",
     "start": "node index.js"
   },
   "dependencies": {
@@ -32,5 +31,8 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0",
     "mysql2": "^3.23.0"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2"
   }
 }
