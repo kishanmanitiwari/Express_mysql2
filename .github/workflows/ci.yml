@@ -44,4 +44,19 @@ jobs:
       run: docker build -t ${{ secrets.DOCKER_USERNAME }}/express-api:test .
 
     - name: Push Docker image
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/express-api:test 
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/express-api:test
+
+    - name: Deploy to Oracle
+      uses: appleboy/ssh-action@v1.2.2
+
+      with:
+        host: ${{ secrets.ORACLE_HOST_TEST_INSTANCE }}
+        username: ${{ secrets.ORACLE_USER_TEST_INSTANCE }}
+        key: ${{ secrets.ORACLE_SSH_KEY_TEST_INSTANCE }}
+
+      script: |
+        cd ~
+
+        docker compose pull
+
+        docker compose up -d
