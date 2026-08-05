@@ -12,7 +12,10 @@ const config = {
 
 const RETRY_DELAY_MS = Number(process.env.DB_RETRY_DELAY_MS || 3000);
 
-export async function connectWithRetry(connectionConfig, retryDelayMs = RETRY_DELAY_MS) {
+export async function connectWithRetry(
+  connectionConfig,
+  retryDelayMs = RETRY_DELAY_MS,
+) {
   let attempt = 0;
 
   while (true) {
