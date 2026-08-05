@@ -27,7 +27,7 @@ app.use(
       httpOnly: true,
       secure: false, // true in production with HTTPS
     },
-  })
+  }),
 );
 
 // Routes
@@ -48,6 +48,14 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({
     message: err.message || "Internal Server Error",
   });
+});
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the Express MySQL2 API!");
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "UP" });
 });
 
 app.listen(3000, () => {
