@@ -6,8 +6,8 @@ configDotenv({ debug: true });
 const config = {
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DB,
+  password: process.env.DB_PASSWORD || "",
+  database: process.env.DB_DB || "",
 };
 
 const RETRY_DELAY_MS = Number(process.env.DB_RETRY_DELAY_MS || 3000);
