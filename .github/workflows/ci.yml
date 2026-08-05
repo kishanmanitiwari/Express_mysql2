@@ -54,9 +54,8 @@ jobs:
         username: ${{ secrets.ORACLE_USER_TEST_INSTANCE }}
         key: ${{ secrets.ORACLE_SSH_KEY_TEST_INSTANCE }}
 
-      script: |
-        cd ~
-
-        docker compose pull
-
-        docker compose up -d
+        script: |
+          cd ~
+          docker compose pull
+          docker compose up -d --remove-orphans
+          docker image prune -f
