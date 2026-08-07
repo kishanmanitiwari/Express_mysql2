@@ -9,6 +9,7 @@ import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/auth.js";
 import aiRoutes from "./routes/aiRoutes.js";
 
+
 configDotenv();
 
 const app = express();
