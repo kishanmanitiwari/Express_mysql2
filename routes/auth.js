@@ -167,4 +167,13 @@ router.post("/logout", (req, res, next) => {
   });
 });
 
+// GET /auth/me - Returns the currently logged in user
+router.get("/me", jwtAuth, (req, res) => {
+  // Since jwtAuth passed, the cookie is valid and req.user is populated!
+  res.json({
+    success: true,
+    user: req.user, 
+  });
+});
+
 export default router;
