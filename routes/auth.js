@@ -127,8 +127,8 @@ router.post(
 
       res.cookie("jwt", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,//for production set to true
+        sameSite: "none", // for cross-site requests
         maxAge: 60 * 60 * 1000,
       });
 
