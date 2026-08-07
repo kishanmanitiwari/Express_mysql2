@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import { configDotenv } from "dotenv";
 import { rateLimit } from "express-rate-limit";
+import cors from "cors";
 
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/auth.js";
@@ -26,6 +27,10 @@ const limiter = rateLimit({
 // Middlewares
 app.use(limiter);
 app.use(morgan("tiny"));
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  credentials: true,               
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
