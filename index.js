@@ -10,7 +10,6 @@ import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/auth.js";
 import aiRoutes from "./routes/aiRoutes.js";
 
-
 configDotenv();
 
 const app = express();
@@ -24,13 +23,23 @@ const limiter = rateLimit({
   // store: ... , // Redis, Memcached, etc. See below.
 });
 
+const origins = [
+  { environment: "local", url: "http://localhost:3000" },
+  {
+    environment: "production",
+    url: "https://chat-app-umber-tau-85.vercel.app/",
+  },
+];
+
 // Middlewares
 app.use(limiter);
 app.use(morgan("tiny"));
-app.use(cors({
-  origin: 'http://localhost:3000', 
-  credentials: true,               
-}));
+app.use(
+  cors({
+    origin: origins.map((origin) => origin.url),
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
