@@ -146,22 +146,24 @@ router.post(
 
 // ================= LOGOUT =================
 
-router.post("/logout", (req, res) => {
+router.post("/logout", (req, res, next) => {
+  // 1. Clear the JWT cookie
   res.clearCookie("jwt");
 
+  // 2. Destroy the session
   req.session.destroy((err) => {
-    if (err) return next(err);
+    if (err) {
+      return next(err); // Now 'next' will work properly!
+    }
 
+    // 3. Clear the session cookie
     res.clearCookie("connect.sid");
 
+    // 4. Send the SINGLE final response
     res.json({
+      success: true,
       message: "Logout Successful",
     });
-  });
-
-  res.json({
-    success: true,
-    message: "Logout Successful",
   });
 });
 
