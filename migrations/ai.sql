@@ -1,21 +1,18 @@
-CREATE TABLE messages(
+CREATE TABLE conversations(
 
     id INT PRIMARY KEY AUTO_INCREMENT,
 
-    conversation_id INT NOT NULL,
+    user_id INT NOT NULL,
 
-    role ENUM('system','user','assistant') NOT NULL,
-
-    content LONGTEXT NOT NULL,
+    title VARCHAR(255),
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY(conversation_id)
-        REFERENCES conversations(id)
+    FOREIGN KEY(user_id)
+        REFERENCES auth(id)
         ON DELETE CASCADE
 
 );
-
 
 CREATE TABLE messages(
 
