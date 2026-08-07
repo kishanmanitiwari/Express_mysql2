@@ -41,6 +41,7 @@ DB_DB=express_auth_db
 
 JWT_SECRET=your_jwt_secret
 SESSION_SECRET=your_session_secret
+GEMINI_API_KEY = your_gemini_api_id
 ```
 
 ### 5. Start the server

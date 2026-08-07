@@ -7,6 +7,7 @@ import { rateLimit } from "express-rate-limit";
 
 import userRouter from "./routes/userRoute.js";
 import authRouter from "./routes/auth.js";
+import aiRoutes from "./routes/aiRoutes.js";
 
 configDotenv();
 
@@ -52,6 +53,7 @@ app.get("/health", (req, res) => {
 // Routes
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
+app.use("/api/ai", aiRoutes);
 
 // 404 Middleware
 app.use((req, res) => {
