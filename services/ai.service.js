@@ -54,7 +54,7 @@ ORDER BY created_at
 
     temperature: 0.3, // 0-1 range (Mirch Masala - Cretivity)
 
-   s // max_tokens: 1000,
+   // max_tokens: 1000,
 
     messages,
   });
