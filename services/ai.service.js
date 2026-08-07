@@ -54,7 +54,7 @@ ORDER BY created_at
 
     temperature: 0.3, // 0-1 range (Mirch Masala - Cretivity)
 
-   // max_tokens: 1000,
+    // max_tokens: 1000,
 
     messages,
   });
@@ -119,4 +119,19 @@ Format:
   });
 
   return JSON.parse(completion.choices[0].message.content);
+}
+
+// Add this to your ai.service.js file
+export async function getUserConversations(userId) {
+  const [rows] = await db.query(
+    `
+    SELECT id, title, created_at 
+    FROM conversations 
+    WHERE user_id = ? 
+    ORDER BY created_at DESC
+    `,
+    [userId],
+  );
+
+  return rows;
 }
