@@ -114,6 +114,7 @@ router.post(
 
       const payload = {
         id: rows[0].id,
+        name: rows[0].name,
         email: rows[0].email,
         role: rows[0].role,
       };
