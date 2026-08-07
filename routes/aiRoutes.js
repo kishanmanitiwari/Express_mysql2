@@ -51,4 +51,43 @@ router.post("/review-resume", jwtAuth, async (req, res, next) => {
   }
 });
 
+// Add these to your router file
+
+// GET /api/ai/chat/:id/messages
+router.get("/chat/:id/messages", jwtAuth, async (req, res, next) => {
+  try {
+    const conversationId = req.params.id;
+    const userId = req.user.id;
+
+    const messages = await aiService.getConversationMessages(
+      conversationId,
+      userId,
+    );
+
+    res.json({
+      success: true,
+      data: messages,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// DELETE /api/ai/chat/:id
+router.delete("/chat/:id", jwtAuth, async (req, res, next) => {
+  try {
+    const conversationId = req.params.id;
+    const userId = req.user.id;
+
+    await aiService.deleteConversation(conversationId, userId);
+
+    res.json({
+      success: true,
+      message: "Conversation deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

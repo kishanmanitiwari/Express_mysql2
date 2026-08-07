@@ -135,3 +135,44 @@ export async function getUserConversations(userId) {
 
   return rows;
 }
+
+// Add these to your services/ai.service.js file
+
+export async function getConversationMessages(conversationId, userId) {
+  // 1. Verify the conversation actually belongs to this user
+  const [conv] = await db.query(
+    `SELECT id FROM conversations WHERE id = ? AND user_id = ?`,
+    [conversationId, userId]
+  );
+
+  if (conv.length === 0) {
+    throw new Error("Conversation not found or unauthorized");
+  }
+
+  // 2. Fetch the messages, renaming 'content' to 'text' to match your React state
+  const [rows] = await db.query(
+    `
+    SELECT role, content AS text 
+    FROM messages 
+    WHERE conversation_id = ? 
+    ORDER BY created_at ASC
+    `,
+    [conversationId]
+  );
+
+  return rows;
+}
+
+export async function deleteConversation(conversationId, userId) {
+  // The ON DELETE CASCADE in your DB schema will automatically handle the messages
+  const [result] = await db.query(
+    `DELETE FROM conversations WHERE id = ? AND user_id = ?`,
+    [conversationId, userId]
+  );
+
+  if (result.affectedRows === 0) {
+    throw new Error("Conversation not found or unauthorized");
+  }
+
+  return true;
+}
