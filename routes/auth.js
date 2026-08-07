@@ -4,6 +4,7 @@ import db from "../utils/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { configDotenv } from "dotenv";
+import { jwtAuth } from "../middleware/auth.js";
 
 configDotenv({ debug: true });
 
@@ -127,7 +128,7 @@ router.post(
 
       res.cookie("jwt", token, {
         httpOnly: true,
-        secure: true,//for production set to true
+        secure: true, //for production set to true
         sameSite: "none", // for cross-site requests
         maxAge: 60 * 60 * 1000,
       });
@@ -172,7 +173,7 @@ router.get("/me", jwtAuth, (req, res) => {
   // Since jwtAuth passed, the cookie is valid and req.user is populated!
   res.json({
     success: true,
-    user: req.user, 
+    user: req.user,
   });
 });
 
