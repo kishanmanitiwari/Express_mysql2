@@ -14,14 +14,10 @@ configDotenv();
 
 const app = express();
 
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  })
-);
-
-app.options("*", cors());
+app.use(cors({
+    origin: "https://chat-app-umber-tau-85.vercel.app",
+    credentials: true
+}));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
